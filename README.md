@@ -6,6 +6,8 @@ Recommender systems are among the most popular applications of data science toda
 
 There are also popular recommender systems for domains like restaurants, movies, and online dating. Recommender systems have also been developed to explore research articles and experts, collaborators, and financial services. YouTube uses the recommendation system at a large scale to suggest you videos based on your history. For example, if you watch a lot of educational videos, it would suggest those types of videos.
 
+---
+
 ## Recommender systems can be classified into 3 types:
 
 * **Simple recommenders**: offer generalized recommendations to every user, based on movie popularity and/or genre. The basic idea behind this system is that movies that are more popular and critically acclaimed will have a higher probability of being liked by the average audience. An example could be IMDB Top 250.
@@ -13,6 +15,8 @@ There are also popular recommender systems for domains like restaurants, movies,
 * **Content-based recommenders**: suggest similar items based on a particular item. This system uses item metadata, such as genre, director, description, actors, etc. for movies, to make these recommendations. The general idea behind these recommender systems is that if a person likes a particular item, he or she will also like an item that is similar to it. And to recommend that, it will make use of the user's past item metadata. A good example could be YouTube, where based on your history, it suggests you new videos that you could potentially watch.
 
 * **Collaborative filtering engines**: these systems are widely used, and they try to predict the rating or preference that a user would give an item-based on past ratings and preferences of other users. Collaborative filters do not require item metadata like its content-based counterparts.
+
+---
 
 ## Dataset Overview
 
@@ -58,17 +62,27 @@ This dataset consists of the following files:
 
     Which contain the following files:-
 
-        * **movies_metadata.csv**: The main Movies Metadata file. Contains information on 45,000 movies featured in the Full MovieLens dataset. Features include posters, backdrops, budget, revenue, release dates, languages, production countries and companies.
+        * movies_metadata.csv: The main Movies Metadata file.
+        Contains information on 45,000 movies featured in
+        the Full MovieLens dataset. Features include posters,
+        backdrops, budget, revenue, release dates,
+        languages, production countries and companies.
 
-        * **keywords.csv**: Contains the movie plot keywords for our MovieLens movies. Available in the form of a stringified JSON Object.
+        * keywords.csv: Contains the movie plot keywords for our
+        MovieLens movies. Available in the form of
+        a stringified JSON Object.
 
-        * **credits.csv**: Consists of Cast and Crew Information for all our movies. Available in the form of a stringified JSON Object.
+        * credits.csv: Consists of Cast and Crew Information
+        for all our movies. Available in the form of
+        a stringified JSON Object.
 
-        * **links.csv**: The file that contains the TMDB and IMDB IDs of all the movies featured in the Full MovieLens dataset.
+        * links.csv: The file that contains the TMDB and IMDB IDs
+        of all the movies featured in the Full MovieLens dataset.
 
-        * **links_small.csv**: Contains the TMDB and IMDB IDs of a small subset of 9,000 movies of the Full Dataset.
+        * links_small.csv: Contains the TMDB and IMDB IDs of
+        a small subset of 9,000 movies of the Full Dataset.
 
-        * **ratings_small.csv**: The subset of 100,000 ratings from 700 users on 9,000 movies.
+        * ratings_small.csv: The subset of 100,000 ratings from 700 users on 9,000 movies.
 
 The Full Datasets can be found over:
 
@@ -78,13 +92,15 @@ For TMDB Dataset
 For Movies Dataset
 [here](https://grouplens.org/datasets/movielens/latest/).
 
+---
+
 ## Simple Recommenders
 
 Simple recommenders are basic systems that recommend the top items based on a certain metric or score. In this section, you will build a simplified clone of IMDB Top 250 Movies using metadata collected from IMDB.
 
     Note: The IMDB Dataset was removed due to a DMCA violation. We are now using the TMDb dataset.
 
-### Idea to Solve the Problem
+### **Idea to Solve the Problem**
 
 One of the most basic metrics one can think of is the ranking to decide which top 250 movies are based on their respective ratings.
 
@@ -103,11 +119,11 @@ Before getting started with this  -
 We can use the average ratings of the movie as the score but using this won't be fair enough since a movie with 8.9 average rating and only 3 votes cannot be considered better than the movie with 7.8 as as average rating but 40 votes.
 So, I'll be using IMDB's weighted rating (wr) which is given as :-
 
-#### Weighted Average Rating
+#### **Weighted Average Rating**
 
 We can use the Weightied Rating (WR) as a metric to rank our movies. The WR is a combination of the following:
 
-\begin{equation} \text Weighted Rating (\bf WR) = \left({{\bf v} \over {\bf v} + {\bf m}} \cdot R\right) + \left({{\bf m} \over {\bf v} + {\bf m}} \cdot C\right) \end{equation}
+![](.\images\weighted_rating.png)
 
 where,
 
@@ -118,6 +134,8 @@ where,
 
 We will use cutoff m as the 90th percentile.
 In other words, for a movie to be featured in the charts, it must have more votes than at least 90% of the movies on the list.
+
+---
 
 ## Content Based Filtering
 
@@ -210,21 +228,21 @@ Now talking about latent factor you might be wondering what is it ?It is a broad
 
 ![](https://cdn-images-1.medium.com/max/800/1*GUw90kG2ltTd2k_iv3Vo0Q.png)
 
+---
+
 ## Building the Environment
 
 Almost all of the dependencies are in the [Pipfile](.\\Pipfile). But there is some sort of issue with the following packages:
 
-    * **sickit-surprise**:
+* sickit-surprise:
 
-    ```
-    pipenv install scikit-surprise
-    ### Dose not work.
-    ```
+```shell
+pipenv install scikit-surprise
+### Dose not work.
 
-    ```
-    pip install scikit-surprise
-    ### Does not works.
-    ```
+pip install scikit-surprise
+### Does not works.
+```
 
 ### The work around I found is
 
@@ -236,18 +254,18 @@ Almost all of the dependencies are in the [Pipfile](.\\Pipfile). But there is so
 
     This is done in the following way after cloning the repository non-recursively:
 
-    * ```shell
+```shell
     git submodule add https://github.com/NicolasHug/surprise.git
-    ```
+```
 
-    * ```shell
+```shell
     cd surprise
-    ```
+```
 
-    * ```shell
+```shell
     python setup.py install
-    ```
+```
 
-    This will build and install scikit-surprise module.
+This will build and install scikit-surprise module.
 
-* then restarting the Jupyter Kernel should work.
+**then restarting the Jupyter Kernel should work*.
